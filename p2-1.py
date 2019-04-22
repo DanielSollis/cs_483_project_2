@@ -66,7 +66,6 @@ exp_1(df)
 
 plt.plot(X, fourth_order_predicted, color='green', label='Fourth Order')
 plt.legend()
-plt.show()
 
 # Experiment 6
 poly = PolynomialFeatures(4)
@@ -84,7 +83,6 @@ plt.figure(2)
 exp_1(df)
 plt.plot(X, ridge_4_predicted, color='red', label='Ridge')
 plt.legend()
-plt.show()
 
 # Experiment 7
 poly = PolynomialFeatures(4)
