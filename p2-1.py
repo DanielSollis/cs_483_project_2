@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#CPSC 483 - Project 2
+# CPSC 483 - Project 2
 
 import pandas as pd
 import numpy as np
@@ -26,8 +26,8 @@ def show_scatter(df):
 
 
 # Experiment 2
-X_train, X_test, y_train, y_test = train_test_split(X, y, 
-    test_size=0.2, shuffle=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                    test_size=0.2, shuffle=True)
 
 
 # Experiment 3
@@ -63,7 +63,7 @@ plt.legend()
 
 # Experiment 6 - added normalization, not sure if needed but removes
 # ill-conditioned matrix warning and everything still works?
-ridge = Ridge(alpha = 0.1, normalize=True).fit(X_train_4, y_train)
+ridge = Ridge(alpha=0.1, normalize=True).fit(X_train_4, y_train)
 ridge_4_pred = ridge.predict(X_4)
 print(ridge_4_pred)
 print('Ridge fourth order coefficients:', ridge.coef_)
@@ -75,8 +75,8 @@ plt.legend()
 
 
 # Experiment 7 - added alpha values below .001 due to normalization
-ridge_cv = RidgeCV(alphas=[1e-07, 1e-06, 1e-05, 1e-04, 0.001, 0.002, 0.004, 0.01, 0.02, 0.04, 0.1, 0.2, 0.4, 1.0], 
-    store_cv_values=True, normalize=True).fit(X_train_4, y_train)
+ridge_cv = RidgeCV(alphas=[1e-07, 1e-06, 1e-05, 1e-04, 0.001, 0.002, 0.004, 0.01, 0.02, 0.04, 0.1, 0.2, 0.4, 1.0],
+                   store_cv_values=True, normalize=True).fit(X_train_4, y_train)
 
 ridge_4_cv_pred = ridge_cv.predict(X_4)
 print('Fourth order RidgeCV coefficients', ridge_cv.coef_)
@@ -92,11 +92,11 @@ plt.show()
 
 
 # Experiment 8
-X = df.drop(columns=['Unnamed: 0', 'year','region', 'logwage', 'wage'])
+X = df.drop(columns=['Unnamed: 0', 'year', 'region', 'logwage', 'wage'])
 y = df.wage
 
 
-# one-hot encode categorical data 
+# one-hot encode categorical data
 def to_categorical(df):
     '''returns a new pd DataFrame with categorical data
     separated into columns of binary values'''
@@ -104,17 +104,18 @@ def to_categorical(df):
     for column in dfc.columns:
         if dfc[column].dtype == object:
             dummyCols = pd.get_dummies(dfc[column])
-            dfc=dfc.join(dummyCols)
+            dfc = dfc.join(dummyCols)
             del dfc[column]
     return dfc
 
 
 X = to_categorical(X)
-X_train, X_test, y_train, y_test = train_test_split(X, y, 
-    test_size=0.2, shuffle=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                    test_size=0.2, shuffle=True)
 
 lm = LinearRegression().fit(X_train, y_train)
-coefs = pd.DataFrame(zip(X.columns, lm.coef_), columns=['Feature', 'Coefficient'])
+coefs = pd.DataFrame(list(zip(X.columns, lm.coef_)),
+                     columns=["Feature", "Coefficient"])
 print(coefs)
 
 poly = PolynomialFeatures(4)
