@@ -9,6 +9,7 @@ from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge, RidgeCV
 
 file_path = 'Wage.csv'
 df = pd.read_csv(file_path)
@@ -50,11 +51,11 @@ print('R^2 first order: ', lm.score(X_test, y_test))
 
 # Experiment 5
 poly = PolynomialFeatures(4)
-X_train = poly.fit_transform(X_train)
-lm.fit(X_train, y_train)
+X_train1 = poly.fit_transform(X_train)
+lm.fit(X_train1, y_train)
 
 print('Fourth order coefficients', lm.coef_)
-print('R^2 fourth order: ', lm.score(X_train, y_train))
+print('R^2 fourth order: ', lm.score(X_train1, y_train))
 
 X_4 = poly.fit_transform(X)
 
@@ -66,3 +67,41 @@ exp_1(df)
 plt.plot(X, fourth_order_predicted, color='green', label='Fourth Order')
 plt.legend()
 plt.show()
+
+# Experiment 6
+poly = PolynomialFeatures(4)
+X_train1 = poly.fit_transform(X_train)
+X_4 = poly.fit_transform(X)
+
+clf = Ridge(0.1).fit(X_train1, y_train)
+
+ridge_4_predicted = clf.predict(X_4)
+
+print('Fourth order CLF coefficients', clf.coef_)
+print('R^2 fourth order CLF: ', clf.score(X_train1, y_train))
+
+plt.figure(2)
+exp_1(df)
+plt.plot(X, ridge_4_predicted, color='red', label='Ridge')
+plt.legend()
+plt.show()
+
+# Experiment 7
+poly = PolynomialFeatures(4)
+X_train1 = poly.fit_transform(X_train)
+X_4 = poly.fit_transform(X)
+
+clf = RidgeCV(alphas=[100]).fit(X_train1, y_train)
+
+ridge_4_predicted = clf.predict(X_4)
+
+print('Fourth order CLFCV coefficients', clf.coef_)
+print('R^2 fourth order CLFCV: ', clf.score(X_train1, y_train))
+
+plt.figure(3)
+exp_1(df)
+plt.plot(X, ridge_4_predicted, color='red', label='RidgeCV')
+plt.legend()
+plt.show()
+
+# Experiment 7
