@@ -46,7 +46,7 @@ print('R^2 first order: ', lm.score(X_test, y_test))
 # Experiment 5
 poly = PolynomialFeatures(4)
 X_train_4 = poly.fit_transform(X_train)
-lm.fit(X_train_4, y_train)
+lm = lm.fit(X_train_4, y_train)
 
 X_test_4 = poly.fit_transform(X_test)
 print('Fourth order coefficients:', lm.coef_)
@@ -88,11 +88,12 @@ plt.figure(4)
 show_scatter(df)
 plt.plot(X, ridge_4_cv_pred, color='red', label='RidgeCV-Fourth')
 plt.legend()
-plt.show()
+# plt.show()
 
 
 # Experiment 8
-X = df.drop(columns=['Unnamed: 0', 'year', 'region', 'logwage', 'wage'])
+X = df.drop(columns=['Unnamed: 0', 'year', 'maritl', 'race',
+                     'region', 'jobclass', 'health', 'health_ins', 'logwage', 'wage'])
 y = df.wage
 
 
@@ -122,6 +123,6 @@ poly = PolynomialFeatures(4)
 X_train_4 = poly.fit_transform(X_train)
 X_test_4 = poly.fit_transform(X_test)
 
-lm.fit(X_train_4, y_train)
+lm = lm.fit(X_train_4, y_train)
 
 print('R^2: ', lm.score(X_test_4, y_test))
